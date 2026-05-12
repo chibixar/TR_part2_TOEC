@@ -1,0 +1,65 @@
+\begin{align*}
+A1 &:= \begin{pmatrix} 
+1 & -1 & 0 & 0 & 0 & 0 & -1 \\ 
+0 & 1 & -1 & 0 & 0 & 0 & 0 \\ 
+0 & 0 & 1 & -1 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 1 & -1 & 0 & 1 \\ 
+0 & 0 & 0 & 0 & 1 & 1 & 0 \\ 
+0 & Z_2 & Z_3 & Z_4 & 0 & 0 & -Z_7 \\ 
+Z_1 & 0 & 0 & 0 & Z_5 & -Z_6 & Z_7 
+\end{pmatrix} \\[1em]
+B1 &:= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ J_6 \\ 0 \\ E_5 \end{pmatrix} \\[1em]
+I &:= A1^{-1} \cdot B1 = \begin{pmatrix} 
+-0.976 + 0.779i \\ 
+-0.132 + 0.863i \\ 
+-0.132 + 0.863i \\ 
+-0.132 + 0.863i \\ 
+-0.976 + 0.779i \\ 
+-2.938 - 6.582i \\ 
+-0.844 - 0.084i 
+\end{pmatrix}
+\end{align*}
+
+
+\begin{align*}
+B &:= \begin{pmatrix} 
+0 & 1 & 1 & 1 & 0 & 0 & -1 \\ 
+1 & 0 & 0 & 0 & 1 & -1 & 1 
+\end{pmatrix} \\[1em]
+E &:= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ E_5 \\ -J_6 \cdot Z_6 \\ 0 \end{pmatrix} \\[1em]
+RD &:= \text{diag}(Z_1, Z_2, Z_3, Z_4, Z_5, Z_6, Z_7) \\[1em]
+I_K &:= (B \cdot RD \cdot B^T)^{-1} \cdot (B \cdot E) \\[1em]
+I &:= B^T \cdot I_K = \begin{pmatrix} 
+-0.976 + 0.779i \\ 
+-0.132 + 0.863i \\ 
+-0.132 + 0.863i \\ 
+-0.132 + 0.863i \\ 
+-0.976 + 0.779i \\ 
+-0.976 + 0.779i \\ 
+-0.844 - 0.084i 
+\end{pmatrix}
+\end{align*}
+
+
+\begin{align*}
+A &:= \begin{pmatrix} 
+-1 & 1 & 0 & 0 & 0 & 0 & 1 \\ 
+1 & 0 & 0 & 0 & 0 & 1 & 0 \\ 
+0 & 0 & -1 & 1 & 0 & 0 & 0 \\ 
+0 & -1 & 1 & 0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & -1 & 1 & 0 & -1 
+\end{pmatrix} \\[1em]
+J_{src} &:= \begin{pmatrix} 0 \\ J_6 \\ 0 \\ 0 \\ 0 \end{pmatrix} \quad\quad E := \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ E_5 \\ 0 \\ 0 \end{pmatrix} \\[1em]
+RD &:= \text{diag}(Z_1, Z_2, Z_3, Z_4, Z_5, Z_6, Z_7) \\[1em]
+G &:= RD^{-1} \\[1em]
+U &:= (A \cdot G \cdot A^T)^{-1} \cdot (J_{src} - A \cdot G \cdot E) \\[1em]
+IR &:= G \cdot (A^T \cdot U + E) = \begin{pmatrix} 
+-0.976 + 0.779i \\ 
+-0.132 + 0.863i \\ 
+-0.132 + 0.863i \\ 
+-0.132 + 0.863i \\ 
+-0.976 + 0.779i \\ 
+-2.938 - 6.582i \\ 
+-0.844 - 0.084i 
+\end{pmatrix}
+\end{align*}
