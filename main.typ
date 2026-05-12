@@ -18,10 +18,10 @@
     name: "Батюков С.В.",
   ),
   performer: (
-    name: "Иванов И.И.",
+    name: "Занкевич А.С.",
     group: "558301",
   ),
-  footer: (city: "Минск", year: 2024),
+  footer: (city: "Минск", year: 2026),
   city: none,
   year: none,
   add-pagebreaks: false,
@@ -29,6 +29,16 @@
 )
 
 #show: apply-toec-styling
+
+// Принудительно переопределяем подвал страницы (обходя настройки библиотеки),
+// чтобы нумерация была строго справа снизу и не выводилась на титульном листе.
+#set page(
+  footer: context [
+    #if counter(page).get().first() > 1 [
+      #align(right)[#counter(page).display("1")]
+    ]
+  ]
+)
 
 = Расшифровка задания
 
@@ -63,45 +73,49 @@
 
 #lab-figure(
   caption: [Исходная схема],
-  circuit-better(scale-factor: 70%, {
-    import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
-    node-better("5", (5, 12), label: (content: "5", anchor: "north", distance: 0.5), visible: true)
-    node-better("4", (11, 12), label: (content: "4", anchor: "north", distance: 0.5), visible: true)
-    node-better("6", (16, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
-    node-better("2", (16, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
-    node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
+  [
+    #v(-2.2cm) // Убираем пустой отступ сверху
+    #circuit-better(scale-factor: 70%, {
+      import zap: *
+      node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+      node-better("5", (5, 12), label: (content: "5", anchor: "north", distance: 0.5), visible: true)
+      node-better("4", (11, 12), label: (content: "4", anchor: "north", distance: 0.5), visible: true)
+      node-better("6", (16, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
+      node-better("2", (16, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
+      node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
 
-    // Ветвь 2, 3, 4 (Верхний прямоугольный путь)
-    wire("1", (0, 12))
-    resistor-better("R2", (0, 12), "5", label: (content: $R_2$, anchor: "south", distance: 1.0), arrow-label: (content: $I_2$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6, arrow-dir: "forward")
-    inductor-better("L3", "5", (8,12), label: (content: $L_3$, anchor: "south", distance: 1.0), arrow-label: (content: $I_3$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6)
-    capacitor-better("C3", (8,12), "4", label: (content: $C_3$, anchor: "south", distance: 1.0))
-    inductor-better("L4", "4", (16,12), label: (content: $L_4$, anchor: "south", distance: 1.0), arrow-label: (content: $I_4$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6, arrow-dir: "forward")
-    wire((16,12), "6")
+      // Ветвь 2, 3, 4 (Верхний прямоугольный путь)
+      wire("1", (0, 12))
+      resistor-better("R2", (0, 12), "5", label: (content: $R_2$, anchor: "south", distance: 1.0), arrow-label: (content: $I_2$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6, arrow-dir: "forward")
+      inductor-better("L3", "5", (8,12), label: (content: $L_3$, anchor: "south", distance: 1.0), arrow-label: (content: $I_3$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6)
+      capacitor-better("C3", (8,12), "4", label: (content: $C_3$, anchor: "south", distance: 1.0))
+      inductor-better("L4", "4", (16,12), label: (content: $L_4$, anchor: "south", distance: 1.0), arrow-label: (content: $I_4$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6, arrow-dir: "forward")
+      wire((16,12), "6")
 
-    // Ветвь 7 (Средний путь)
-    resistor-better("R7", "1", (8,6), label: (content: $R_7$, anchor: "south", distance: 1.0), arrow-label: (content: $I_7$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6)
-    capacitor-better("C7", (8,6), "6", label: (content: $C_7$, anchor: "south", distance: 1.0))
+      // Ветвь 7 (Средний путь)
+      resistor-better("R7", "1", (8,6), label: (content: $R_7$, anchor: "south", distance: 1.0), arrow-label: (content: $I_7$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6)
+      capacitor-better("C7", (8,6), "6", label: (content: $C_7$, anchor: "south", distance: 1.0))
 
-    // Ветвь 5 (Правый вертикальный путь, ток идет от 6 к 2)
-    source-better("E5", "6", (16,4), label: (content: $E_5$, anchor: "west", distance: 1.2), arrow-dir: "forward")
-    resistor-better("R5", (16,4), (16,2), label: (content: $R_5$, anchor: "west", distance: 1.0))
-    capacitor-better("C5", (16,2), "2", label: (content: $C_5$, anchor: "west", distance: 1.0), arrow-label: (content: $I_5$, anchor: "east", distance: 1.0), arrow-side: "east", arrow-offset: 0.6)
-    
-    // Ветвь 6 (Нижний горизонтальный путь, ток идет от 2 к 3)
-    capacitor-better("C6", "3", (8,0), label: (content: $C_6$, anchor: "south", distance: 1.0), arrow-label: (content: $I_6$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6, arrow-dir: "backward")
-    inductor-better("L6", (8,0), "2", label: (content: $L_6$, anchor: "south", distance: 1.0))
-    
-    // Источник J6 параллельно ветви 6
-    wire("2", (16, -3))
-    jsource-better("J6", (16,-3), (0,-3), label: (content: $J_6$, anchor: "south", distance: 1.2), arrow-dir: "forward")
-    wire((0,-3), "3")
+      // Ветвь 5 (Правый вертикальный путь, ток идет от 6 к 2)
+      source-better("E5", "6", (16,4), label: (content: $E_5$, anchor: "west", distance: 1.2), arrow-dir: "forward")
+      resistor-better("R5", (16,4), (16,2), label: (content: $R_5$, anchor: "west", distance: 1.0))
+      capacitor-better("C5", (16,2), "2", label: (content: $C_5$, anchor: "west", distance: 1.0), arrow-label: (content: $I_5$, anchor: "east", distance: 1.0), arrow-side: "east", arrow-offset: 0.6)
+      
+      // Ветвь 6 (Нижний горизонтальный путь, ток идет от 2 к 3)
+      capacitor-better("C6", "3", (8,0), label: (content: $C_6$, anchor: "south", distance: 1.0), arrow-label: (content: $I_6$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6, arrow-dir: "backward")
+      inductor-better("L6", (8,0), "2", label: (content: $L_6$, anchor: "south", distance: 1.0))
+      
+      // Источник J6 параллельно ветви 6
+      wire("2", (16, -3))
+      jsource-better("J6", (16,-3), (0,-3), label: (content: $J_6$, anchor: "south", distance: 1.2), arrow-dir: "forward")
+      wire((0,-3), "3")
 
-    // Ветвь 1 (Левый вертикальный путь, ток идет от 3 к 1)
-    resistor-better("R1", "3", (0,3), label: (content: $R_1$, anchor: "east", distance: 1.0), arrow-label: (content: $I_1$, anchor: "west", distance: 1.0), arrow-side: "west", arrow-offset: 0.6)
-    inductor-better("L1", (0,3), "1", label: (content: $L_1$, anchor: "east", distance: 1.0))
-  })
+      // Ветвь 1 (Левый вертикальный путь, ток идет от 3 к 1)
+      resistor-better("R1", "3", (0,3), label: (content: $R_1$, anchor: "east", distance: 1.0), arrow-label: (content: $I_1$, anchor: "west", distance: 1.0), arrow-side: "west", arrow-offset: 0.6)
+      inductor-better("L1", (0,3), "1", label: (content: $L_1$, anchor: "east", distance: 1.0))
+    })
+    #v(-2.2cm) // Убираем пустой отступ перед подписью
+  ]
 )
 
 = Расчет токов в ветвях исходной цепи
@@ -143,22 +157,26 @@
 
 #lab-figure(
   caption: [Объединение последовательных элементов],
-  circuit-better(scale-factor: 85%, {
-    import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
-    node-better("6", (14, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
-    
-    wire("1", (0, 10))
-    resistor-better("ZA", (0, 10), (14, 10), label: (content: $Z_A$, anchor: "south", distance: 0.5), arrow-label: (content: $I_2$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
-    wire((14, 10), "6")
+  [
+    #v(-0.6cm)
+    #circuit-better(scale-factor: 85%, {
+      import zap: *
+      node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+      node-better("6", (14, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
+      
+      wire("1", (0, 10))
+      resistor-better("ZA", (0, 10), (14, 10), label: (content: $Z_A$, anchor: "south", distance: 0.5), arrow-label: (content: $I_2$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
+      wire((14, 10), "6")
 
-    resistor-better("ZB", "1", "6", label: (content: $Z_B$, anchor: "south", distance: 0.5), arrow-label: (content: $I_7$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
+      resistor-better("ZB", "1", "6", label: (content: $Z_B$, anchor: "south", distance: 0.5), arrow-label: (content: $I_7$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
 
-    wire("6", (14, 2))
-    source-better("EC", (14, 2), (9, 2), label: (content: $E_C$, anchor: "south", distance: 1.2), arrow-dir: "forward")
-    resistor-better("ZC", (9, 2), (0, 2), label: (content: $Z_C$, anchor: "south", distance: 0.5), arrow-label: (content: $I_1$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
-    wire((0, 2), "1")
-  })
+      wire("6", (14, 2))
+      source-better("EC", (14, 2), (9, 2), label: (content: $E_C$, anchor: "south", distance: 1.2), arrow-dir: "forward")
+      resistor-better("ZC", (9, 2), (0, 2), label: (content: $Z_C$, anchor: "south", distance: 0.5), arrow-label: (content: $I_1$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
+      wire((0, 2), "1")
+    })
+    #v(-0.6cm)
+  ]
 )
 
 Найдем эквивалентное сопротивление параллельных ветвей $A$ и $B$ (схема на рисунке 3):
@@ -169,18 +187,22 @@
 
 #lab-figure(
   caption: [Эквивалентное сопротивление $Z_"AB"$],
-  circuit-better(scale-factor: 85%, {
-    import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
-    node-better("6", (14, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
-    
-    resistor-better("ZAB", "1", "6", label: (content: $Z_"AB"$, anchor: "south", distance: 0.5), arrow-label: (content: $I_1$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
+  [
+    #v(-0.6cm)
+    #circuit-better(scale-factor: 85%, {
+      import zap: *
+      node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+      node-better("6", (14, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
+      
+      resistor-better("ZAB", "1", "6", label: (content: $Z_"AB"$, anchor: "south", distance: 0.5), arrow-label: (content: $I_1$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
 
-    wire("6", (14, 2))
-    source-better("EC", (14, 2), (9, 2), label: (content: $E_C$, anchor: "south", distance: 1.2), arrow-dir: "forward")
-    resistor-better("ZC", (9, 2), (0, 2), label: (content: $Z_C$, anchor: "south", distance: 0.5), arrow-label: (content: $I_1$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
-    wire((0, 2), "1")
-  })
+      wire("6", (14, 2))
+      source-better("EC", (14, 2), (9, 2), label: (content: $E_C$, anchor: "south", distance: 1.2), arrow-dir: "forward")
+      resistor-better("ZC", (9, 2), (0, 2), label: (content: $Z_C$, anchor: "south", distance: 0.5), arrow-label: (content: $I_1$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
+      wire((0, 2), "1")
+    })
+    #v(-0.6cm)
+  ]
 )
 
 Схема свернулась до одного контура, состоящего из $dot(Z)_"AB"$ и $dot(Z)_C$. Ток в этом контуре $dot(I)_"конт"$ (он же $dot(I)_1$ и $dot(I)_5$) равен:
@@ -281,46 +303,49 @@
 
 #lab-figure(
   caption: [Схема с учетом магнитной связи между индуктивностями],
-  circuit-better(scale-factor: 70%, {
-    import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
-    node-better("5", (5, 12), label: (content: "5", anchor: "north", distance: 0.5), visible: true)
-    node-better("4", (11, 12), label: (content: "4", anchor: "north", distance: 0.5), visible: true)
-    node-better("6", (16, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
-    node-better("2", (16, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
-    node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
+  [
+    #v(-2.6cm)
+    #circuit-better(scale-factor: 70%, {
+      import zap: *
+      node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+      node-better("5", (5, 12), label: (content: "5", anchor: "north", distance: 0.5), visible: true)
+      node-better("4", (11, 12), label: (content: "4", anchor: "north", distance: 0.5), visible: true)
+      node-better("6", (16, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
+      node-better("2", (16, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
+      node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
 
-    wire("1", (0, 12))
-    resistor-better("R2", (0, 12), "5", label: (content: $R_2$, anchor: "south", distance: 1.0))
-    inductor-better("L3", "5", (8,12), label: (content: $L_3$, anchor: "south", distance: 1.0))
-    capacitor-better("C3", (8,12), "4", label: (content: $C_3$, anchor: "south", distance: 1.0))
-    inductor-better("L4", "4", (16,12), label: (content: $L_4$, anchor: "south", distance: 1.0))
-    wire((16,12), "6")
+      wire("1", (0, 12))
+      resistor-better("R2", (0, 12), "5", label: (content: $R_2$, anchor: "south", distance: 1.0))
+      inductor-better("L3", "5", (8,12), label: (content: $L_3$, anchor: "south", distance: 1.0))
+      capacitor-better("C3", (8,12), "4", label: (content: $C_3$, anchor: "south", distance: 1.0))
+      inductor-better("L4", "4", (16,12), label: (content: $L_4$, anchor: "south", distance: 1.0))
+      wire((16,12), "6")
 
-    resistor-better("R7", "1", (8,6), label: (content: $R_7$, anchor: "south", distance: 1.0))
-    capacitor-better("C7", (8,6), "6", label: (content: $C_7$, anchor: "south", distance: 1.0))
+      resistor-better("R7", "1", (8,6), label: (content: $R_7$, anchor: "south", distance: 1.0))
+      capacitor-better("C7", (8,6), "6", label: (content: $C_7$, anchor: "south", distance: 1.0))
 
-    source-better("E5", "6", (16,4), label: (content: $E_5$, anchor: "west", distance: 1.2), arrow-dir: "forward")
-    resistor-better("R5", (16,4), (16,2), label: (content: $R_5$, anchor: "west", distance: 1.0))
-    capacitor-better("C5", (16,2), "2", label: (content: $C_5$, anchor: "west", distance: 1.0))
-    
-    capacitor-better("C6", "3", (8,0), label: (content: $C_6$, anchor: "south", distance: 1.0))
-    inductor-better("L6", (8,0), "2", label: (content: $L_6$, anchor: "south", distance: 1.0))
-    
-    wire("2", (16, -3))
-    jsource-better("J6", (16,-3), (0,-3), label: (content: $J_6$, anchor: "south", distance: 1.2), arrow-dir: "forward")
-    wire((0,-3), "3")
+      source-better("E5", "6", (16,4), label: (content: $E_5$, anchor: "west", distance: 1.2), arrow-dir: "forward")
+      resistor-better("R5", (16,4), (16,2), label: (content: $R_5$, anchor: "west", distance: 1.0))
+      capacitor-better("C5", (16,2), "2", label: (content: $C_5$, anchor: "west", distance: 1.0))
+      
+      capacitor-better("C6", "3", (8,0), label: (content: $C_6$, anchor: "south", distance: 1.0))
+      inductor-better("L6", (8,0), "2", label: (content: $L_6$, anchor: "south", distance: 1.0))
+      
+      wire("2", (16, -3))
+      jsource-better("J6", (16,-3), (0,-3), label: (content: $J_6$, anchor: "south", distance: 1.2), arrow-dir: "forward")
+      wire((0,-3), "3")
 
-    resistor-better("R1", "3", (0,3), label: (content: $R_1$, anchor: "east", distance: 1.0))
-    inductor-better("L1", (0,3), "1", label: (content: $L_1$, anchor: "east", distance: 1.0))
+      resistor-better("R1", "3", (0,3), label: (content: $R_1$, anchor: "east", distance: 1.0))
+      inductor-better("L1", (0,3), "1", label: (content: $L_1$, anchor: "east", distance: 1.0))
 
-    // Отрисовка индуктивной связи:
-    // L3 центр ~ 6.5, L4 центр ~ 13.5
-    cetz.draw.circle((6.5, 12.4), radius: 0.12, fill: black)
-    cetz.draw.circle((13.5, 12.4), radius: 0.12, fill: black)
-    cetz.draw.bezier((6.5, 12.6), (13.5, 12.6), (10, 14.5), mark: (start: ">", end: ">", fill: black), stroke: 1pt)
-    cetz.draw.content((10, 13.8), $M$)
-  })
+      // Отрисовка индуктивной связи:
+      cetz.draw.circle((6.5, 12.4), radius: 0.12, fill: black)
+      cetz.draw.circle((13.5, 12.4), radius: 0.12, fill: black)
+      cetz.draw.bezier((6.5, 12.6), (13.5, 12.6), (10, 14.5), mark: (start: ">", end: ">", fill: black), stroke: 1pt)
+      cetz.draw.content((10, 13.8), $M$)
+    })
+    #v(-2.6cm)
+  ]
 )
 
 Запишем систему уравнений в дифференциальной форме (5 узлов, 2 независимых контура):
@@ -330,7 +355,7 @@ $ cases(
   i_3 - i_4 = 0,
   i_2 - i_3 = 0,
   i_4 + i_7 - i_5 = 0,
-  i_5 - i_6 + J_6 = 0,
+  i_5 - i_6 - J_6 = 0,
   i_2 R_2 + L_3 (d i_3)/(d t) + 1/C_3 display(integral) i_3 d t + M (d i_4)/(d t) + \
     #h(2em) + L_4 (d i_4)/(d t) + M (d i_3)/(d t) - i_7 R_7 - 1/C_7 display(integral) i_7 d t = 0,
   i_7 R_7 + 1/C_7 display(integral) i_7 d t - e_5 + i_5 R_5 + 1/C_5 display(integral) i_5 d t + \
@@ -345,7 +370,7 @@ $ cases(
   dot(I)_3 - dot(I)_4 = 0,
   dot(I)_2 - dot(I)_3 = 0,
   dot(I)_4 + dot(I)_7 - dot(I)_5 = 0,
-  dot(I)_5 - dot(I)_6 + dot(J)_6 = 0,
+  dot(I)_5 - dot(I)_6 - dot(J)_6 = 0,
   dot(I)_2 R_2 + dot(I)_3 (j omega L_3 - j 1/(omega C_3)) + dot(I)_4 j omega M + \
     #h(2em) + dot(I)_4 j omega L_4 + dot(I)_3 j omega M - dot(I)_7 (R_7 - j 1/(omega C_7)) = 0,
   dot(I)_7 (R_7 - j 1/(omega C_7)) - dot(E)_5 + dot(I)_5 (R_5 - j 1/(omega C_5)) + \
@@ -357,10 +382,10 @@ $ cases(
 
 Решение систем алгебраических уравнений выполнялось при помощи программы MATHCAD. Решение представлено на рисунке 6.
 
-// #figure(
-//   image("matrix1.png", width: 80%),
-//   caption: [Расчет токов по законам Кирхгофа]
-// )
+#figure(
+  image("matrix6.png", width: 80%),
+  caption: [Расчет токов по законам Кирхгофа]
+)
 
 Где X – неизвестные токи, которые находятся путём умножения обратной матрицы A на матрицу B.
 
@@ -368,10 +393,10 @@ $ cases(
 
 Решение выполнялось при помощи программы MATHCAD. Результат вычисления представлен на рисунке 7.
 
-// #figure(
-//   image("matrix2.png", width: 80%),
-//   caption: [Расчет токов методом контурных токов]
-// )
+#figure(
+  image("matrix7.png", width: 80%),
+  caption: [Расчет токов методом контурных токов]
+)
 
 B – контурная матрица; \
 RD = diag(R) – формирование диагональной матрицы RD из матрицы R; \
@@ -382,10 +407,10 @@ I – токи ветвей.
 
 Решение выполнялось при помощи программы MATHCAD. Результат вычисления представлен на рисунке 8.
 
-// #figure(
-//   image("matrix3.png", width: 80%),
-//   caption: [Расчет токов методом узловых напряжений]
-// )
+#figure(
+  image("matrix8.png", width: 80%),
+  caption: [Расчет токов методом узловых напряжений]
+)
 
 A – узловая матрица; \
 RD = diag(R) – формирование диагональной матрицы RD из матрицы R; \
@@ -400,26 +425,30 @@ IR – определение токов в сопротивлениях вет�
 
 #lab-figure(
   caption: [Схема для расчета напряжения холостого хода],
-  circuit-better(scale-factor: 85%, {
-    import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
-    node-better("6", (12, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
-    node-better("2", (12, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
-    node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
+  [
+    #v(-0.7cm)
+    #circuit-better(scale-factor: 85%, {
+      import zap: *
+      node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+      node-better("6", (12, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
+      node-better("2", (12, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
+      node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
 
-    resistor-better("ZAB", "1", "6", label: (content: $Z_"AB"$, anchor: "south", distance: 0.5))
-    
-    source-better("E5", "6", (12, 3), label: (content: $E_5$, anchor: "east", distance: 1.2), arrow-dir: "forward")
-    resistor-better("Z5", (12, 3), "2", label: (content: $Z_5$, anchor: "east", distance: 0.5))
+      resistor-better("ZAB", "1", "6", label: (content: $Z_"AB"$, anchor: "south", distance: 0.5))
+      
+      source-better("E5", "6", (12, 3), label: (content: $E_5$, anchor: "east", distance: 1.2), arrow-dir: "forward")
+      resistor-better("Z5", (12, 3), "2", label: (content: $Z_5$, anchor: "east", distance: 0.5))
 
-    resistor-better("Z1", "3", "1", label: (content: $Z_1$, anchor: "west", distance: 0.5))
+      resistor-better("Z1", "3", "1", label: (content: $Z_1$, anchor: "west", distance: 0.5))
 
-    wire("2", (12, -3))
-    jsource-better("J6", (12,-3), (0,-3), label: (content: $J_6$, anchor: "south", distance: 1.2), arrow-dir: "forward")
-    wire((0,-3), "3")
+      wire("2", (12, -3))
+      jsource-better("J6", (12,-3), (0,-3), label: (content: $J_6$, anchor: "south", distance: 1.2), arrow-dir: "forward")
+      wire((0,-3), "3")
 
-    open-branch-better("Uxx", "2", "3", label: (content: $dot(U)_"хх"$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-dir: "forward", show-terminals: true, arrow-offset: 0.4)
-  })
+      open-branch-better("Uxx", "2", "3", label: (content: $dot(U)_"хх"$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-dir: "forward", show-terminals: true, arrow-offset: 0.4)
+    })
+    #v(-0.7cm)
+  ]
 )
 
 Напряжение холостого хода $dot(U)_"хх"$ (напряжение между узлами 3 и 2). Ток от источника $J_6$ протекает по внешнему контуру через эквивалентное сопротивление $Z_"экв"$.
@@ -434,22 +463,26 @@ IR – определение токов в сопротивлениях вет�
 
 #lab-figure(
   caption: [Схема для расчета эквивалентного сопротивления],
-  circuit-better(scale-factor: 85%, {
-    import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
-    node-better("6", (12, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
-    node-better("2", (12, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
-    node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
+  [
+    #v(-0.4cm)
+    #circuit-better(scale-factor: 85%, {
+      import zap: *
+      node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+      node-better("6", (12, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
+      node-better("2", (12, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
+      node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
 
-    resistor-better("ZAB", "1", "6", label: (content: $Z_"AB"$, anchor: "south", distance: 0.5))
-    
-    wire("6", (12, 3))
-    resistor-better("Z5", (12, 3), "2", label: (content: $Z_5$, anchor: "east", distance: 0.5))
+      resistor-better("ZAB", "1", "6", label: (content: $Z_"AB"$, anchor: "south", distance: 0.5))
+      
+      wire("6", (12, 3))
+      resistor-better("Z5", (12, 3), "2", label: (content: $Z_5$, anchor: "east", distance: 0.5))
 
-    resistor-better("Z1", "3", "1", label: (content: $Z_1$, anchor: "west", distance: 0.5))
+      resistor-better("Z1", "3", "1", label: (content: $Z_1$, anchor: "west", distance: 0.5))
 
-    open-branch-better("Zin", "2", "3", label: (content: $Z_"экв"$, anchor: "south", distance: 0.5), arrow-side: "south", arrow-dir: "forward", arrow-offset: 0.4)
-  })
+      open-branch-better("Zin", "2", "3", label: (content: $Z_"экв"$, anchor: "south", distance: 0.5), arrow-side: "south", arrow-dir: "forward", arrow-offset: 0.4)
+    })
+    #v(-0.4cm)
+  ]
 )
 
 #mathtype-mimic[
@@ -462,19 +495,23 @@ IR – определение токов в сопротивлениях вет�
 
 #lab-figure(
   caption: [Эквивалентная схема МЭГН],
-  circuit-better(scale-factor: 85%, {
-    import zap: *
-    node-better("2", (12, 6), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
-    node-better("3", (0, 6), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
-    
-    wire("2", (12, 2))
-    source-better("Eeq", (12, 2), (6, 2), label: (content: $dot(U)_"хх"$, anchor: "south", distance: 1.2), arrow-dir: "backward")
-    resistor-better("Zeq", (6, 2), (0, 2), label: (content: $Z_"экв"$, anchor: "south", distance: 0.5))
-    wire((0, 2), "3")
+  [
+    #v(-0.4cm)
+    #circuit-better(scale-factor: 85%, {
+      import zap: *
+      node-better("2", (12, 6), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
+      node-better("3", (0, 6), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
+      
+      wire("2", (12, 2))
+      source-better("Eeq", (12, 2), (6, 2), label: (content: $dot(U)_"хх"$, anchor: "south", distance: 1.2), arrow-dir: "backward")
+      resistor-better("Zeq", (6, 2), (0, 2), label: (content: $Z_"экв"$, anchor: "south", distance: 0.5))
+      wire((0, 2), "3")
 
-    capacitor-better("C6", "3", (6,6), label: (content: $C_6$, anchor: "south", distance: 0.5), arrow-label: (content: $I_6$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4, arrow-dir: "backward")
-    inductor-better("L6", (6,6), "2", label: (content: $L_6$, anchor: "south", distance: 0.5))
-  })
+      capacitor-better("C6", "3", (6,6), label: (content: $C_6$, anchor: "south", distance: 0.5), arrow-label: (content: $I_6$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4, arrow-dir: "backward")
+      inductor-better("L6", (6,6), "2", label: (content: $L_6$, anchor: "south", distance: 0.5))
+    })
+    #v(-0.4cm)
+  ]
 )
 
 #mathtype-mimic[
