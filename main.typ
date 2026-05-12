@@ -65,10 +65,10 @@
   caption: [Исходная схема],
   circuit-better(scale-factor: 70%, {
     import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "east", distance: 0.5), visible: true)
-    node-better("5", (5, 12), label: (content: "5", anchor: "south", distance: 0.5), visible: true)
-    node-better("4", (11, 12), label: (content: "4", anchor: "south", distance: 0.5), visible: true)
-    node-better("6", (16, 6), label: (content: "6", anchor: "west", distance: 0.5), visible: true)
+    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+    node-better("5", (5, 12), label: (content: "5", anchor: "north", distance: 0.5), visible: true)
+    node-better("4", (11, 12), label: (content: "4", anchor: "north", distance: 0.5), visible: true)
+    node-better("6", (16, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
     node-better("2", (16, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
     node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
 
@@ -90,7 +90,6 @@
     capacitor-better("C5", (16,2), "2", label: (content: $C_5$, anchor: "west", distance: 1.0), arrow-label: (content: $I_5$, anchor: "east", distance: 1.0), arrow-side: "east", arrow-offset: 0.6)
     
     // Ветвь 6 (Нижний горизонтальный путь, ток идет от 2 к 3)
-    // Рисуем слева направо, чтобы L6 смотрела витками вверх
     capacitor-better("C6", "3", (8,0), label: (content: $C_6$, anchor: "south", distance: 1.0), arrow-label: (content: $I_6$, anchor: "north", distance: 1.0), arrow-side: "north", arrow-offset: 0.6, arrow-dir: "backward")
     inductor-better("L6", (8,0), "2", label: (content: $L_6$, anchor: "south", distance: 1.0))
     
@@ -119,8 +118,8 @@
 
 Запишем комплексы независимых источников:
 #mathtype-mimic[
-  $ dot(E)_5 &= 38 e^(114 degree j) = -15.46 + 34.71 j " В"; $
-  $ dot(J)_6 &= 7 e^(236 degree j) = -3.91 - 5.80 j " А". $
+  $ dot(E)_5 &= 38 e^(j 114 degree) = -15.46 + 34.71 j " В"; $
+  $ dot(J)_6 &= 7 e^(j 236 degree) = -3.91 - 5.80 j " А". $
 ]
 
 По методу эквивалентных преобразований преобразуем источник тока $dot(J)_6$ в эквивалентную ЭДС $dot(E)_(J_6)$, направленную так же, как и источник тока (от узла 2 к узлу 3):
@@ -144,8 +143,8 @@
   caption: [Объединение последовательных элементов],
   circuit-better(scale-factor: 85%, {
     import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "east", distance: 0.5), visible: true)
-    node-better("6", (14, 6), label: (content: "6", anchor: "west", distance: 0.5), visible: true)
+    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+    node-better("6", (14, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
     
     wire("1", (0, 10))
     resistor-better("ZA", (0, 10), (14, 10), label: (content: $Z_A$, anchor: "south", distance: 0.5), arrow-label: (content: $I_2$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
@@ -169,8 +168,8 @@
   caption: [Эквивалентное сопротивление $Z_"AB"$],
   circuit-better(scale-factor: 85%, {
     import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "east", distance: 0.5), visible: true)
-    node-better("6", (14, 6), label: (content: "6", anchor: "west", distance: 0.5), visible: true)
+    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+    node-better("6", (14, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
     
     resistor-better("ZAB", "1", "6", label: (content: $Z_"AB"$, anchor: "south", distance: 0.5), arrow-label: (content: $I_1$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4)
 
@@ -181,9 +180,9 @@
   })
 )
 
-Схема свернулась до одного контура, состоящего из $dot(Z)_"AB"$ и $dot(Z)_C$. Ток в этом контуре $dot(I)_1$ (он же $dot(I)_5$ и $dot(I)_6$) равен:
+Схема свернулась до одного контура, состоящего из $dot(Z)_"AB"$ и $dot(Z)_C$. Ток в этом контуре $dot(I)_"конт"$ (он же $dot(I)_1$ и $dot(I)_5$) равен:
 #mathtype-mimic[
-  $ dot(I)_1 = dot(I)_5 = dot(I)_6 = dot(E)_C / (dot(Z)_"AB" + dot(Z)_C) = (-189.55 + 152.13 j) / (194.56 - 0.57 j) = -0.976 + 0.779 j = 1.250 e^(141.4 degree j) " А". $
+  $ dot(I)_1 = dot(I)_5 = dot(I)_"конт" = dot(E)_C / (dot(Z)_"AB" + dot(Z)_C) = (-189.55 + 152.13 j) / (194.56 - 0.57 j) = -0.976 + 0.779 j = 1.250 e^(j 141.4 degree) " А". $
 ]
 
 Напряжение между узлами 1 и 6:
@@ -193,13 +192,23 @@
 
 Определяем оставшиеся токи в параллельных ветвях:
 #mathtype-mimic[
-  $ dot(I)_2 = dot(I)_3 = dot(I)_4 = dot(U)_16 / dot(Z)_A = (-56.70 + 30.18 j) / (44 + 59 j) = -0.132 + 0.863 j = 0.873 e^(98.7 degree j) " А"; $
-  $ dot(I)_7 = dot(U)_16 / dot(Z)_B = (-56.70 + 30.18 j) / (63 - 42 j) = -0.844 - 0.084 j = 0.848 e^(-174.3 degree j) " А". $
+  $ dot(I)_2 = dot(I)_3 = dot(I)_4 = dot(U)_16 / dot(Z)_A = (-56.70 + 30.18 j) / (44 + 59 j) = -0.132 + 0.863 j = 0.873 e^(j 98.7 degree) " А"; $
+  $ dot(I)_7 = dot(U)_16 / dot(Z)_B = (-56.70 + 30.18 j) / (63 - 42 j) = -0.844 - 0.084 j = 0.848 e^(-j 174.3 degree) " А". $
+]
+
+Для нахождения истинного тока 6-й ветви $dot(I)_6$, определим напряжение между узлами 3 и 2:
+#mathtype-mimic[
+  $ dot(U)_32 = -dot(I)_"конт" dot(Z)_6 + dot(E)_(J_6) = -(-0.976 + 0.779 j)(-30 j) + (-174.09 + 117.42 j) = -197.46 + 88.14 j " В". $
+]
+Ток 6-й ветви по закону Ома:
+#mathtype-mimic[
+  $ dot(I)_6 = dot(U)_32 / dot(Z)_6 = (-197.46 + 88.14 j) / (-30 j) = -2.938 - 6.582 j = 7.208 e^(-j 114.05 degree) " А". $
 ]
 
 По найденным комплексам записываем мгновенные значения токов:
 #mathtype-mimic[
-  $ i_1(t) = i_5(t) = i_6(t) &= sqrt(2) dot 1.250 sin(omega t + 141.4 degree) " А"; $
+  $ i_1(t) = i_5(t) &= sqrt(2) dot 1.250 sin(omega t + 141.4 degree) " А"; $
+  $ i_6(t) &= sqrt(2) dot 7.208 sin(omega t - 114.05 degree) " А"; $
   $ i_2(t) = i_3(t) = i_4(t) &= sqrt(2) dot 0.873 sin(omega t + 98.7 degree) " А"; $
   $ i_7(t) &= sqrt(2) dot 0.848 sin(omega t - 174.3 degree) " А". $
 ]
@@ -207,7 +216,7 @@
 = Составление баланса мощностей
 Напряжение на источнике тока $dot(J)_6$ (направлено от узла 2 к 3):
 #mathtype-mimic[
-  $ dot(U)_(J_6) = (dot(I)_6 - dot(J)_6) dot dot(Z)_6 = (-0.976 + 0.779 j + 3.914 + 5.803 j)(-30 j) = 197.46 - 88.14 j " В". $
+  $ dot(U)_(J_6) = (dot(I)_"конт" - dot(J)_6) dot dot(Z)_6 = (-0.976 + 0.779 j - (-3.914 - 5.803 j))(-30 j) = 197.46 - 88.14 j " В". $
 ]
 
 Комплексная мощность, отдаваемая источниками (с учетом того, что источник тока отдает мощность $dot(S)_J = -dot(U)_(J_6) dot(J)_6^*$ при несовпадении направлений с напряжением узлов):
@@ -216,11 +225,11 @@
   $ &= (-15.46 + 34.71 j)(-0.976 - 0.779 j) - (197.46 - 88.14 j)(-3.914 + 5.803 j) = $
   $ &= (42.13 - 21.84 j) - (-261.38 + 1490.84 j) = 303.51 - 1512.68 j " ВА". $
 ]
-Активная и реактивная мощности источника: $P_"ист" = 303.5 " Вт"$, $Q_"ист" = -1512.7 " ВАр"$.
+Активная и реактивная мощности источника: $P_"ист" = 303.51 " Вт"$, $Q_"ист" = -1512.68 " ВАр"$.
 
 Мощность, рассеиваемая на пассивных элементах цепи:
 #mathtype-mimic[
-  $ dot(S)_"потр" &= |dot(I)_1|^2 dot(Z)_1 + |dot(I)_2|^2 dot(Z)_A + |dot(I)_7|^2 dot(Z)_B + |dot(I)_5|^2 dot(Z)_5 + |dot(I)_6 - dot(J)_6|^2 dot(Z)_6 = $
+  $ dot(S)_"потр" &= |dot(I)_1|^2 dot(Z)_1 + |dot(I)_2|^2 dot(Z)_A + |dot(I)_7|^2 dot(Z)_B + |dot(I)_5|^2 dot(Z)_5 + |dot(I)_6|^2 dot(Z)_6 = $
   $ &= 1.559(89 + 47 j) + 0.762(44 + 59 j) + 0.720(63 - 42 j) + 1.559(55 - 27 j) + 51.95(-30 j) = $
   $ &= 138.8 + 73.3 j + 33.5 + 45.0 j + 45.4 - 30.2 j + 85.7 - 42.1 j - 1558.5 j = $
   $ &= 303.4 - 1512.5 j " ВА". $
@@ -234,7 +243,7 @@
   $ phi_4 &= phi_5 - dot(I)_3 dot(Z)_3 = 5.81 - 37.97 j - (-0.132 + 0.863 j)(-22 j) = -13.18 - 40.88 j " В"; $
   $ phi_6 &= phi_4 - dot(I)_4 dot(Z)_4 = -13.18 - 40.88 j - (-0.132 + 0.863 j)(81 j) = 56.71 - 30.18 j " В"; $
   $ phi_3 &= phi_1 + dot(I)_1 dot(Z)_1 = (-0.976 + 0.779 j)(89 + 47 j) = -123.48 + 23.46 j " В"; $
-  $ phi_2 &= phi_3 + (dot(I)_6 - dot(J)_6)dot(Z)_6 = -123.48 + 23.46 j + 197.46 - 88.14 j = 73.98 - 64.68 j " В". $
+  $ phi_2 &= phi_3 + dot(U)_(J_6) = -123.48 + 23.46 j + 197.46 - 88.14 j = 73.98 - 64.68 j " В". $
 ]
 
 #lab-figure(
@@ -249,18 +258,133 @@
   )
 )
 
+= Полагая наличие индуктивной связи между любыми двумя индуктивностями, записать для заданной цепи уравнения по законам Кирхгофа
+
+Предположим наличие магнитной индуктивной связи $M$ между катушками $L_3$ (ветвь 3) и $L_4$ (ветвь 4). Токи $i_3$ и $i_4$ входят в одноименные (отмеченные точками) зажимы.
+
+#lab-figure(
+  caption: [Схема с учетом магнитной связи между индуктивностями],
+  circuit-better(scale-factor: 70%, {
+    import zap: *
+    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+    node-better("5", (5, 12), label: (content: "5", anchor: "north", distance: 0.5), visible: true)
+    node-better("4", (11, 12), label: (content: "4", anchor: "north", distance: 0.5), visible: true)
+    node-better("6", (16, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
+    node-better("2", (16, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
+    node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
+
+    wire("1", (0, 12))
+    resistor-better("R2", (0, 12), "5", label: (content: $R_2$, anchor: "south", distance: 1.0))
+    inductor-better("L3", "5", (8,12), label: (content: $L_3$, anchor: "south", distance: 1.0))
+    capacitor-better("C3", (8,12), "4", label: (content: $C_3$, anchor: "south", distance: 1.0))
+    inductor-better("L4", "4", (16,12), label: (content: $L_4$, anchor: "south", distance: 1.0))
+    wire((16,12), "6")
+
+    resistor-better("R7", "1", (8,6), label: (content: $R_7$, anchor: "south", distance: 1.0))
+    capacitor-better("C7", (8,6), "6", label: (content: $C_7$, anchor: "south", distance: 1.0))
+
+    source-better("E5", "6", (16,4), label: (content: $E_5$, anchor: "west", distance: 1.0), arrow-dir: "forward")
+    resistor-better("R5", (16,4), (16,2), label: (content: $R_5$, anchor: "west", distance: 1.0))
+    capacitor-better("C5", (16,2), "2", label: (content: $C_5$, anchor: "west", distance: 1.0))
+    
+    capacitor-better("C6", "3", (8,0), label: (content: $C_6$, anchor: "south", distance: 1.0))
+    inductor-better("L6", (8,0), "2", label: (content: $L_6$, anchor: "south", distance: 1.0))
+    
+    wire("2", (16, -3))
+    jsource-better("J6", (16,-3), (0,-3), label: (content: $J_6$, anchor: "south", distance: 1.0), arrow-dir: "forward")
+    wire((0,-3), "3")
+
+    resistor-better("R1", "3", (0,3), label: (content: $R_1$, anchor: "east", distance: 1.0))
+    inductor-better("L1", (0,3), "1", label: (content: $L_1$, anchor: "east", distance: 1.0))
+
+    // Отрисовка индуктивной связи:
+    // L3 центр ~ 6.5, L4 центр ~ 13.5
+    cetz.draw.circle((6.5, 12.4), radius: 0.12, fill: black)
+    cetz.draw.circle((13.5, 12.4), radius: 0.12, fill: black)
+    cetz.draw.bezier((6.5, 12.6), (13.5, 12.6), (10, 14.5), mark: (start: ">", end: ">", fill: black), stroke: 1pt)
+    cetz.draw.content((10, 13.8), $M$)
+  })
+)
+
+Запишем систему уравнений в дифференциальной форме (5 узлов, 2 независимых контура):
+#mathtype-mimic[
+$ cases(
+  i_1 - i_2 - i_7 = 0,
+  i_3 - i_4 = 0,
+  i_2 - i_3 = 0,
+  i_4 + i_7 - i_5 = 0,
+  i_5 - i_6 + J_6 = 0,
+  i_2 R_2 + L_3 (d i_3)/(d t) + 1/C_3 display(integral) i_3 d t + M (d i_4)/(d t) + L_4 (d i_4)/(d t) + M (d i_3)/(d t) - i_7 R_7 - 1/C_7 display(integral) i_7 d t = 0,
+  i_7 R_7 + 1/C_7 display(integral) i_7 d t - e_5 + i_5 R_5 + 1/C_5 display(integral) i_5 d t + L_6 (d i_6)/(d t) + 1/C_6 display(integral) i_6 d t + i_1 R_1 + L_1 (d i_1)/(d t) = 0
+) $
+]
+
+Запишем эти же уравнения в комплексной форме:
+#mathtype-mimic[
+$ cases(
+  dot(I)_1 - dot(I)_2 - dot(I)_7 = 0,
+  dot(I)_3 - dot(I)_4 = 0,
+  dot(I)_2 - dot(I)_3 = 0,
+  dot(I)_4 + dot(I)_7 - dot(I)_5 = 0,
+  dot(I)_5 - dot(I)_6 + dot(J)_6 = 0,
+  dot(I)_2 R_2 + dot(I)_3 (j omega L_3 - j 1/(omega C_3)) + dot(I)_4 j omega M + dot(I)_4 j omega L_4 + dot(I)_3 j omega M - dot(I)_7 (R_7 - j 1/(omega C_7)) = 0,
+  dot(I)_7 (R_7 - j 1/(omega C_7)) - dot(E)_5 + dot(I)_5 (R_5 - j 1/(omega C_5)) + dot(I)_6 (j omega L_6 - j 1/(omega C_6)) + dot(I)_1 (R_1 + j omega L_1) = 0
+) $
+]
+
+= Определяем токи в ветвях исходной схемы методом законов Кирхгофа
+
+Решение систем алгебраических уравнений выполнялось при помощи программы MATHCAD. Решение представлено на рисунке 6.
+
+// #figure(
+//   image("matrix1.png", width: 80%),
+//   caption: [Расчет токов по законам Кирхгофа]
+// )
+
+Где X – неизвестные токи, которые находятся путём умножения обратной матрицы A на матрицу B.
+
+= Определяем токи в ветвях исходной схемы методом контурных токов
+
+Решение выполнялось при помощи программы MATHCAD. Результат вычисления представлен на рисунке 7.
+
+// #figure(
+//   image("matrix2.png", width: 80%),
+//   caption: [Расчет токов методом контурных токов]
+// )
+
+B – контурная матрица; \
+RD = diag(R) – формирование диагональной матрицы RD из матрицы R; \
+IK – нахождение контурных токов; \
+I – токи ветвей.
+
+= Определяем токи в ветвях исходной схемы методом узловых напряжений
+
+Решение выполнялось при помощи программы MATHCAD. Результат вычисления представлен на рисунке 8.
+
+// #figure(
+//   image("matrix3.png", width: 80%),
+//   caption: [Расчет токов методом узловых напряжений]
+// )
+
+A – узловая матрица; \
+RD = diag(R) – формирование диагональной матрицы RD из матрицы R; \
+G – диагональная матрица G из матрицы RD; \
+F – определение потенциалов всех узлов по отношению к базисному узлу; \
+U – определение напряжения на всех ветвях цепи; \
+IR – определение токов в сопротивлениях ветвей.
+
 = Определение тока в ветви 6 МЭГН
-Исключаем 6-ю ветвь (разрываем цепь между узлами 2 и 3). При этом цепь ветвей 5 и 1 разрывается, и ток в них становится равным нулю.
-На рисунке 4 изображена схема для расчета напряжения холостого хода.
+
+Исключаем ветвь сопротивления 6 (разрываем цепь между узлами 2 и 3, удаляя только исследуемое сопротивление $Z_6$). Источник тока $J_6$ при этом остается в схеме, так как он подключен параллельно и является независимым источником. При этом цепь ветвей 5 и 1 разрывается, и ток от ЭДС в них становится равным нулю. На рисунке 9 изображена схема для расчета напряжения холостого хода.
 
 #lab-figure(
   caption: [Схема для расчета напряжения холостого хода],
   circuit-better(scale-factor: 85%, {
     import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "east", distance: 0.5), visible: true)
-    node-better("6", (12, 6), label: (content: "6", anchor: "west", distance: 0.5), visible: true)
-    node-better("2", (12, 0), label: (content: "2", anchor: "west", distance: 0.5), visible: true)
-    node-better("3", (0, 0), label: (content: "3", anchor: "east", distance: 0.5), visible: true)
+    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+    node-better("6", (12, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
+    node-better("2", (12, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
+    node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
 
     resistor-better("ZAB", "1", "6", label: (content: $Z_"AB"$, anchor: "south", distance: 0.5))
     
@@ -269,29 +393,30 @@
 
     resistor-better("Z1", "3", "1", label: (content: $Z_1$, anchor: "west", distance: 0.5))
 
-    open-branch-better("Uxx", "2", "3", label: (content: $dot(U)_230$, anchor: "south", distance: 0.5), arrow-side: "south", arrow-dir: "forward", show-terminals: true, arrow-offset: 0.4)
+    wire("2", (12, -3))
+    jsource-better("J6", (12,-3), (0,-3), label: (content: $J_6$, anchor: "south", distance: 0.5), arrow-dir: "forward")
+    wire((0,-3), "3")
+
+    open-branch-better("Uxx", "2", "3", label: (content: $dot(U)_"хх"$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-dir: "forward", show-terminals: true, arrow-offset: 0.4)
   })
 )
 
-Напряжение холостого хода:
+Напряжение холостого хода $dot(U)_"хх"$ (напряжение между узлами 3 и 2). Ток от источника $J_6$ протекает по внешнему контуру через эквивалентное сопротивление $Z_"экв"$.
 #mathtype-mimic[
-  $ dot(U)_230 = phi_2 - phi_3 = (phi_6 + dot(E)_5) - phi_1 = dot(U)_61^("хх") + dot(E)_5. $
-]
-Так как пассивные ветви $A$ и $B$ не содержат источников, $dot(U)_61^("хх") = 0$. Следовательно:
-#mathtype-mimic[
-  $ dot(U)_230 = dot(E)_5 = -15.46 + 34.71 j " В". $
+  $ dot(U)_"хх" = dot(J)_6 dot dot(Z)_"экв" - dot(E)_5 = (-3.914 - 5.800 j) (194.56 + 29.43 j) - (-15.46 + 34.71 j) = $
+  $ = (-590.77 - 1243.33 j) - (-15.46 + 34.71 j) = -575.31 - 1279.04 j " В". $
 ]
 
-Закоротив источники ЭДС, находим эквивалентное сопротивление схемы относительно зажимов 2-3 (рисунок 5):
+Закоротив источники ЭДС и разомкнув источники тока, находим эквивалентное сопротивление схемы относительно зажимов 2-3 (рисунок 10):
 
 #lab-figure(
   caption: [Схема для расчета эквивалентного сопротивления],
   circuit-better(scale-factor: 85%, {
     import zap: *
-    node-better("1", (0, 6), label: (content: "1", anchor: "east", distance: 0.5), visible: true)
-    node-better("6", (12, 6), label: (content: "6", anchor: "west", distance: 0.5), visible: true)
-    node-better("2", (12, 0), label: (content: "2", anchor: "west", distance: 0.5), visible: true)
-    node-better("3", (0, 0), label: (content: "3", anchor: "east", distance: 0.5), visible: true)
+    node-better("1", (0, 6), label: (content: "1", anchor: "west", distance: 0.5), visible: true)
+    node-better("6", (12, 6), label: (content: "6", anchor: "east", distance: 0.5), visible: true)
+    node-better("2", (12, 0), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
+    node-better("3", (0, 0), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
 
     resistor-better("ZAB", "1", "6", label: (content: $Z_"AB"$, anchor: "south", distance: 0.5))
     
@@ -308,32 +433,28 @@
   $ dot(Z)_"экв" = dot(Z)_5 + dot(Z)_"AB" + dot(Z)_1 = (55 - 27 j) + (50.56 + 9.43 j) + (89 + 47 j) = 194.56 + 29.43 j " Ом". $
 ]
 
-Подключаем ветвь 6 к эквивалентному генератору (рисунок 6) и находим ток $dot(I)_6$:
+Подключаем ветвь 6 к эквивалентному генератору (рисунок 11) и находим ток $dot(I)_6$:
 
 #lab-figure(
   caption: [Эквивалентная схема МЭГН],
   circuit-better(scale-factor: 85%, {
     import zap: *
-    node-better("2", (12, 6), label: (content: "2", anchor: "west", distance: 0.5), visible: true)
-    node-better("3", (0, 6), label: (content: "3", anchor: "east", distance: 0.5), visible: true)
+    node-better("2", (12, 6), label: (content: "2", anchor: "east", distance: 0.5), visible: true)
+    node-better("3", (0, 6), label: (content: "3", anchor: "west", distance: 0.5), visible: true)
     
     wire("2", (12, 2))
-    source-better("Eeq", (12, 2), (6, 2), label: (content: $dot(U)_230$, anchor: "south", distance: 0.5), arrow-dir: "backward")
+    source-better("Eeq", (12, 2), (6, 2), label: (content: $dot(U)_"хх"$, anchor: "south", distance: 0.5), arrow-dir: "backward")
     resistor-better("Zeq", (6, 2), (0, 2), label: (content: $Z_"экв"$, anchor: "south", distance: 0.5))
     wire((0, 2), "3")
 
     capacitor-better("C6", "3", (6,6), label: (content: $C_6$, anchor: "south", distance: 0.5), arrow-label: (content: $I_6$, anchor: "north", distance: 0.5), arrow-side: "north", arrow-offset: 0.4, arrow-dir: "backward")
     inductor-better("L6", (6,6), "2", label: (content: $L_6$, anchor: "south", distance: 0.5))
-    
-    wire("2", (12, 10))
-    jsource-better("J6", (12,10), (0,10), label: (content: $J_6$, anchor: "north", distance: 0.5), arrow-dir: "forward")
-    wire((0,10), "3")
   })
 )
 
 #mathtype-mimic[
-  $ dot(I)_6 = (dot(U)_230 + dot(J)_6 dot(Z)_6) / (dot(Z)_"экв" + dot(Z)_6) = (-15.46 + 34.71 j - 174.09 + 117.42 j) / (194.56 + 29.43 j - 30 j) = $
-  $ = (-189.55 + 152.13 j) / (194.56 - 0.57 j) = -0.976 + 0.779 j " А". $
+  $ dot(I)_6 = dot(U)_"хх" / (dot(Z)_"экв" + dot(Z)_6) = (-575.31 - 1279.04 j) / (194.56 + 29.43 j - 30 j) = $
+  $ = (-575.31 - 1279.04 j) / (194.56 - 0.57 j) = -2.938 - 6.582 j " А". $
 ]
 Ток полностью совпадает с рассчитанным ранее.
 
@@ -350,12 +471,13 @@
       table.cell(colspan: 2)[Показательная форма],
       [Re], [Im], [Модуль], [Арг., $degree$]
     ),
-    [$I_1=I_5=I_6$], [-0.976], [0.779], [1.250], [141.4],
-    [$I_2=I_3=I_4$], [-0.132], [0.863], [0.873], [98.7],
-    [$I_7$], [-0.844], [-0.084], [0.848], [-174.3],
-    [Мощность $S_"ист"$], [303.51], [-1512.68], [1542.8], [-78.6],
-    [Мощность $S_"потр"$], [303.42], [-1512.50], [1542.6], [-78.6],
-    [$U_230$], [-15.46], [34.71], [38.00], [114.0],
-    [$Z_"экв"$], [194.56], [29.43], [196.77], [8.6]
+    [$I_1=I_5$], [-0.98], [0.78], [1.25], [141.40],
+    [$I_6$], [-2.94], [-6.58], [7.21], [-114.05],
+    [$I_2=I_3=I_4$], [-0.13], [0.86], [0.87], [98.70],
+    [$I_7$], [-0.84], [-0.08], [0.85], [-174.30],
+    [Мощность $S_"ист"$], [303.51], [-1512.68], [1542.80], [-78.60],
+    [Мощность $S_"потр"$], [303.42], [-1512.50], [1542.60], [-78.60],
+    [$U_"хх"$], [-575.31], [-1279.04], [1402.50], [-114.22],
+    [$Z_"экв"$], [194.56], [29.43], [196.77], [8.60]
   )
 )
