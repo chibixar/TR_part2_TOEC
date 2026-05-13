@@ -356,10 +356,8 @@ $ cases(
   i_2 - i_3 = 0,
   i_4 + i_7 - i_5 = 0,
   i_5 - i_6 - J_6 = 0,
-  i_2 R_2 + L_3 (d i_3)/(d t) + 1/C_3 display(integral) i_3 d t + M (d i_4)/(d t) + \
-    #h(2em) + L_4 (d i_4)/(d t) + M (d i_3)/(d t) - i_7 R_7 - 1/C_7 display(integral) i_7 d t = 0,
-  i_7 R_7 + 1/C_7 display(integral) i_7 d t - e_5 + i_5 R_5 + 1/C_5 display(integral) i_5 d t + \
-    #h(2em) + L_6 (d i_6)/(d t) + 1/C_6 display(integral) i_6 d t + i_1 R_1 + L_1 (d i_1)/(d t) = 0
+  i_2 R_2 + L_3 (d i_3)/(d t) + 1/C_3 display(integral) i_3 d t + M (d i_4)/(d t) + L_4 (d i_4)/(d t) + M (d i_3)/(d t) - i_7 R_7 - 1/C_7 display(integral) i_7 d t = 0,
+  i_7 R_7 + 1/C_7 display(integral) i_7 d t - e_5 + i_5 R_5 + 1/C_5 display(integral) i_5 d t + L_6 (d i_6)/(d t) + 1/C_6 display(integral) i_6 d t + i_1 R_1 + L_1 (d i_1)/(d t) = 0
 ) $
 ]
 
@@ -371,10 +369,8 @@ $ cases(
   dot(I)_2 - dot(I)_3 = 0,
   dot(I)_4 + dot(I)_7 - dot(I)_5 = 0,
   dot(I)_5 - dot(I)_6 - dot(J)_6 = 0,
-  dot(I)_2 R_2 + dot(I)_3 (j omega L_3 - j 1/(omega C_3)) + dot(I)_4 j omega M + \
-    #h(2em) + dot(I)_4 j omega L_4 + dot(I)_3 j omega M - dot(I)_7 (R_7 - j 1/(omega C_7)) = 0,
-  dot(I)_7 (R_7 - j 1/(omega C_7)) - dot(E)_5 + dot(I)_5 (R_5 - j 1/(omega C_5)) + \
-    #h(2em) + dot(I)_6 (j omega L_6 - j 1/(omega C_6)) + dot(I)_1 (R_1 + j omega L_1) = 0
+  dot(I)_2 R_2 + dot(I)_3 (j omega L_3 - j 1/(omega C_3)) + dot(I)_4 j omega M + dot(I)_4 j omega L_4 + dot(I)_3 j omega M - dot(I)_7 (R_7 - j 1/(omega C_7)) = 0,
+  dot(I)_7 (R_7 - j 1/(omega C_7)) - dot(E)_5 + dot(I)_5 (R_5 - j 1/(omega C_5)) + dot(I)_6 (j omega L_6 - j 1/(omega C_6)) + dot(I)_1 (R_1 + j omega L_1) = 0
 ) $
 ]
 
@@ -383,7 +379,7 @@ $ cases(
 Решение систем алгебраических уравнений выполнялось при помощи программы MATHCAD. Решение представлено на рисунке 6.
 
 #figure(
-  image("matrix6.png", width: 80%),
+  image("matrix6new.png", width: 80%),
   caption: [Расчет токов по законам Кирхгофа]
 )
 
@@ -394,7 +390,7 @@ $ cases(
 Решение выполнялось при помощи программы MATHCAD. Результат вычисления представлен на рисунке 7.
 
 #figure(
-  image("matrix7.png", width: 80%),
+  image("matrix7new.png", width: 80%),
   caption: [Расчет токов методом контурных токов]
 )
 
@@ -408,7 +404,7 @@ I – токи ветвей.
 Решение выполнялось при помощи программы MATHCAD. Результат вычисления представлен на рисунке 8.
 
 #figure(
-  image("matrix8.png", width: 80%),
+  image("matrix8new.png", width: 80%),
   caption: [Расчет токов методом узловых напряжений]
 )
 
