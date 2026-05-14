@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage{amsmath}
+\begin{document}
+
+\textbf{8. Определяем токи в ветвях исходной схемы методом узловых напряжений}
+
+\begin{align*}
+Z_1 &:= 89 + 47i & Z_2 &:= 44 \\
+Z_3 &:= -22i & Z_4 &:= 81i \\
+Z_5 &:= 55 - 27i & Z_6 &:= -30i \\
+Z_7 &:= 63 - 42i \\
+E_5 &:= -15.460 + 34.710i & J_6 &:= -3.910 - 5.800i
+\end{align*}
+
+\[
+A := \begin{pmatrix} 
+0 & 0 & 0 & 0 & -1 & 1 & 0 \\ 
+1 & 0 & 0 & 0 & 0 & -1 & 0 \\ 
+0 & 0 & -1 & 1 & 0 & 0 & 0 \\ 
+0 & -1 & 1 & 0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & -1 & 1 & 0 & -1 
+\end{pmatrix}
+\]
+
+\[
+E := \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ E_5 \\ 0 \\ 0 \end{pmatrix}, \quad 
+J_{src} := \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ J_6 \\ 0 \end{pmatrix}
+\]
+
+\[
+RD := \text{diag}(Z_1, Z_2, Z_3, Z_4, Z_5, Z_6, Z_7)
+\]
+
+\[
+G := RD^{-1}
+\]
+
+\[
+\Phi := (A \cdot G \cdot A^T)^{-1} \cdot (-A \cdot G \cdot E - A \cdot J_{src})
+\]
+
+\[
+U := A^T \cdot \Phi
+\]
+
+\[
+IR := G \cdot (U + E) = \begin{pmatrix} 
+-0.976 + 0.779i \\ 
+-0.132 + 0.863i \\ 
+-0.132 + 0.863i \\ 
+-0.132 + 0.863i \\ 
+-0.976 + 0.779i \\ 
+2.938 + 6.582i \\ 
+-0.844 - 0.087i 
+\end{pmatrix}
+\]
+
+\end{document}
